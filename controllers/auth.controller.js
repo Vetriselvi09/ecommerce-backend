@@ -21,7 +21,7 @@ const signup = async (req, res) => {
     
 
     // ✅ Create and save user
-    const newUser = new User({ username, password: password, email, phone });
+    const newUser = new User({ username, password, email, phone });
     await newUser.save();
 
     res.status(201).json({ message: 'User registered successfully', userId: newUser._id });
