@@ -7,12 +7,12 @@ exports.createOrder = async (req, res) => {
     const {
       userId,
       cartItems,
-      customerDetails,
-      dispatchDate,
-      dispatchTime,
-      paymentMethod,
-      paymentStatus,
-      totalAmount
+      // customerDetails,
+      // dispatchDate,
+      // dispatchTime,
+      // paymentMethod,
+      // paymentStatus,
+      totalAmount,paymentId
     } = req.body;
 
     const newOrder = new Order({
@@ -41,12 +41,26 @@ exports.getAllOrders = async (req, res) => {
 };
 
 // Get orders for a specific user
+// exports.getUserOrders = async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+//     const orders = await Order.find({ user: userId }).sort({ createdAt: -1 });
+//     res.status(200).json(orders);
+//   } catch (err) {
+//     res.status(500).json({ error: 'Failed to retrieve user orders' });
+//   }
+// };
+const mongoose = require('mongoose');
+
 exports.getUserOrders = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const orders = await Order.find({ user: userId }).sort({ createdAt: -1 });
+    const objectUserId = new mongoose.Types.ObjectId(userId); 
+const orders = await Order.find({ userId: objectUserId }).sort({ createdAt: -1 });
+console.log(orders)
     res.status(200).json(orders);
   } catch (err) {
+    console.error(err); // helpful for debugging
     res.status(500).json({ error: 'Failed to retrieve user orders' });
   }
 };
